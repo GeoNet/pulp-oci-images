@@ -1,6 +1,7 @@
 SECRET_KEY = "aabbcc"
 CONTENT_ORIGIN = "http://pulp_content:24816"
-DATABASES = {"default": {"HOST": "postgres", "ENGINE": "django.db.backends.postgresql", "NAME": "pulp", "USER": "pulp", "PASSWORD": "password", "PORT": "5432", "CONN_MAX_AGE": 0, "OPTIONS": {"sslmode": "prefer"}}}
+DATABASES = {"default": {"HOST": "postgres", "ENGINE": "django.db.backends.postgresql", "NAME": "pulp",
+                         "USER": "pulp", "PASSWORD": "password", "PORT": "5432", "CONN_MAX_AGE": 0, "OPTIONS": {"sslmode": "prefer"}}}
 CACHE_ENABLED = True
 REDIS_HOST = "redis"
 REDIS_PORT = 6379
@@ -16,3 +17,5 @@ PUBLIC_KEY_PATH = "/etc/pulp/keys/container_auth_public_key.pem"
 PRIVATE_KEY_PATH = "/etc/pulp/keys/container_auth_private_key.pem"
 TELEMETRY = False
 STATIC_ROOT = "/var/lib/operator/static/"
+ALLOWED_CONTENT_CHECKSUMS = ["md5", "sha1",
+                             "sha224", "sha256", "sha384", "sha512"]
