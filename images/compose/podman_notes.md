@@ -31,7 +31,13 @@ verbose = 0
 
 `pulp rpm repository sync --name datadog_7 --sync-policy mirror_content_only`
 
+wait for sync to finish
+
 `pulp rpm publication create --repository datadog_7`
+
+`pulp rpm publication list --repository datadog_7`
+
+`pulp rpm distribution create --name datadog7 --base-path datadog7 --publication {HREF}` ^href from above command output
 
 ```plain
 [mossc@hutl24060 ~]$ pulp rpm publication create --repository datadog_7
@@ -93,3 +99,55 @@ pipeline explaination
 <https://docs.pulpproject.org/pulpcore/concepts.html#serving-content-with-pulp>
 RPM specific docs
 <https://docs.pulpproject.org/pulp_rpm/workflows/create_sync_publish.html>
+
+## RPM upload
+
+```plain
+pulp rpm repository create --name geonet_external
+pulp rpm content upload --relative-path nessus-agent --file /home/sysmaint/NessusAgent-10.4.0-es8.x86_64.rpm --chunk-size 100MB --repository geonet_external
+pulp rpm publication create --repository geonet_external
+pulp rpm distribution create --name geonet_external --base-path geonet_external --publication '/pulp/api/v3/publications/rpm/rpm/01892903-a295-76d8-843c-0da46c6023a2/'
+```
+
+```
+[geonet_external]
+name=geonet_external
+enabled=1
+baseurl=http://pulp_content:24816/pulp/content/geonet_external/
+gpgcheck=0
+repo_gpgcheck=0
+```
+
+## avrpm02 client installer guide
+
+  dnf module enable python39
+  dnf install python39-pip
+  venv
+  python3 -m venv
+  python3 -m venv /root/pulp_env
+  cd /root/pulp_env
+  ls
+  ls bin
+  source bin/activate
+  pip3 install pulp-cli[shell]
+  pulp configure
+  pulp config
+  pulp config create
+  pulp config edit
+
+## password reset
+
+ podman exec -it pulp-aio-pulp pulpcore-manager reset-admin-password
+Please enter new password for user "admin":
+Please enter new password for user "admin" again:
+Successfully set password for "admin" user.
+
+## update repo
+
+create publication (version increment)
+
+grab publication href
+
+update the distribution (repo) to point to new version
+
+pulp rpm distribution update --name geonet_external --publication '/pulp/api/v3/publications/rpm/rpm/01892347-0385-7807-ba1d-84f9b5c36d7e/'
