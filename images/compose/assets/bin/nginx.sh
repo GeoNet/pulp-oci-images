@@ -24,8 +24,8 @@ envsubst '$NAMESERVER' < /etc/opt/rh/rh-nginx116/nginx/nginx.conf.template > /et
 # So we modifying the files to use the variables rather than the upstream server groups
 for file in /opt/app-root/etc/nginx.default.d/*.conf ; do
   echo "Modifying $file"
-  sed -i 's/pulp-api/$pulp_api:24817/' $file
-  sed -i 's/pulp-content/$pulp_content:24816/' $file
+  sed -i 's/pulp-api.dns.podman/$pulp_api:24817/' $file
+  sed -i 's/pulp-content.dns.podman/$pulp_content:24816/' $file
 done
 
 echo "Starting nginx"
